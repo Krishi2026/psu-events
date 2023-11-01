@@ -2,7 +2,7 @@ from django.shortcuts import render
 import calendar
 from calendar import HTMLCalendar
 from datetime import datetime
-def home(request, year, month):
+def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
 	name = "Hanesh"
 	#Converting month to uppercase
 	month = month.capitalize()
@@ -18,7 +18,7 @@ def home(request, year, month):
 	#Current Time and Year
 	current_time = datetime.now()
 	current_year = current_time.year
-	return render(request,'home.html',{
+	return render(request,'events/home.html',{
 	"name": name,
 	"year": year,
 	"month": month,
