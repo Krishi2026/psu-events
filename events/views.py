@@ -2,8 +2,18 @@ from django.shortcuts import render
 import calendar
 from calendar import HTMLCalendar
 from datetime import datetime
+from .models import Event
+
+def all_events(request):
+	event_list = Event.objects.all()
+	return render(request, 'events/event_list.html',
+		{"event_list": event_list})
+
+
+
+
+
 def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
-	name = "Hanesh"
 	#Converting month to uppercase
 	month = month.capitalize()
 	# Month Conversation
@@ -19,7 +29,6 @@ def home(request, year=datetime.now().year, month=datetime.now().strftime('%B'))
 	current_time = datetime.now()
 	current_year = current_time.year
 	return render(request,'events/home.html',{
-	"name": name,
 	"year": year,
 	"month": month,
 	"month_number":month_number,
