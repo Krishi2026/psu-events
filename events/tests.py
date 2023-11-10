@@ -1,4 +1,5 @@
-from django.test import TestCase
+from django.test import TestCase, Client
+from django.urls import reverse
 from .models import Venue, Members, Event
 from django.contrib.auth.models import User
 import datetime
@@ -78,3 +79,35 @@ class EventModelTestCase(TestCase):
         self.event.attendees.add(self.member)
         self.assertIn(self.member, self.event.attendees.all())
         self.assertEqual(self.event.manager, self.user)
+
+
+class URLTest(TestCase):
+    def test_home_url(self):
+        url = reverse('home')
+        self.assertEqual(url, '/') 
+
+
+    def test_events_url(self):
+        url = reverse('list-events')
+        self.assertEqual(url, '/events/')  
+
+    def test_add_venue_url(self):
+        url = reverse('add-venue')
+        self.assertEqual(url, '/add_venue/')  
+
+    def test_list_venues_url(self):
+        url = reverse('list-venues')
+        self.assertEqual(url, '/list_venues/') 
+
+    def test_show_venue_url(self):
+        venue_id = 1  
+        url = reverse('show-venue', args=[venue_id])
+        self.assertEqual(url, f'/show_venue/{venue_id}/') 
+
+    def test_search_venues_url(self):
+        url = reverse('search-venues')
+        self.assertEqual(url, '/search_venues/')  
+
+    def test_views(self):
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 200)  
