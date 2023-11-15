@@ -1,4 +1,5 @@
-from django.test import TestCase
+from django.test import TestCase, Client
+from django.urls import reverse
 from .models import Venue, Members, Event
 from django.contrib.auth.models import User
 import datetime
@@ -78,3 +79,39 @@ class EventModelTestCase(TestCase):
         self.event.attendees.add(self.member)
         self.assertIn(self.member, self.event.attendees.all())
         self.assertEqual(self.event.manager, self.user)
+
+# Views Test Cases
+class ViewsTestCase(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.venue = Venue.objects.create(name="Test Venue", address="Test Address")
+        self.event = Event.objects.create(title="Test Event", date="2023-11-09")
+
+    def test_show_venue(self):
+        response = self.client.get(reverse('show-venue', args=(self.venue.id,)))
+        self.assertEqual(response.status_code, 200)
+
+    def test_all_events(self):
+        response = self.client.get(reverse('list-events'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_list_venues(self):
+        response = self.client.get(reverse('list-venues'))
+        self.assertEqual(response.status_code, 200)
+        
+    def test_search_venues(self):
+        response = self.client.post(reverse('search-venues'), {'searched': 'Test'})
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_venue(self):
+        response = self.client.get(reverse('add-venue'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_venue_view_post(self):
+        form_data = {
+            'name': 'New Venue',
+            'address': 'New Address',
+            # Add other required form fields
+        }
+        response = self.client.post(reverse('add-venue'), form_data)
+        self.assertEqual(response.status_code, 302)
