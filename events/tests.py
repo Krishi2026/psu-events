@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 import datetime
 import warnings
 from .forms import VenueForm
+from .forms import VenueForm
 warnings.simplefilter('ignore')
 
 class VenueModelTestCase(TestCase):
@@ -134,6 +135,26 @@ class VenueFormTest(TestCase):
         self.assertEqual(form.fields['phone'].label, '')
         self.assertEqual(form.fields['web'].label, '')
         self.assertEqual(form.fields['email_address'].label, '')
+    def test_venue_form_labels(self):
+        # Check if the labels are as expected
+        form = VenueForm()
+        self.assertEqual(form.fields['name'].label, '')
+        self.assertEqual(form.fields['address'].label, '')
+        self.assertEqual(form.fields['zip_code'].label, '')
+        self.assertEqual(form.fields['phone'].label, '')
+        self.assertEqual(form.fields['web'].label, '')
+        self.assertEqual(form.fields['email_address'].label, '')
+
+    def test_venue_form_widgets(self):
+        # Check if the widgets are as expected
+        form = VenueForm()
+        self.assertEqual(form.fields['name'].widget.attrs, {'class': 'form-control', 'placeholder': 'Venue Name'})
+        self.assertEqual(form.fields['address'].widget.attrs, {'class': 'form-control', 'placeholder': 'Address'})
+        self.assertEqual(form.fields['zip_code'].widget.attrs, {'class': 'form-control', 'placeholder': 'Zip Code'})
+        self.assertEqual(form.fields['phone'].widget.attrs, {'class': 'form-control', 'placeholder': 'Phone'})
+        self.assertEqual(form.fields['web'].widget.attrs, {'class': 'form-control', 'placeholder': 'Web Address'})
+        self.assertEqual(form.fields['email_address'].widget.attrs, {'class': 'form-control', 'placeholder': 'Email'})
+
 
     def test_venue_form_widgets(self):
         # Check if the widgets are as expected
