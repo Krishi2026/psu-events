@@ -1,4 +1,7 @@
-from django.test import TestCase
+from django.test import TestCase, Client
+from django.urls import reverse
+
+
 from .models import Venue, Members, Event
 from django.contrib.auth.models import User
 import datetime
