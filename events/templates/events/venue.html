@@ -1,0 +1,27 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+
+	
+	<h1>PSU Venues</h1>
+<br/>
+<table class="table table-striped table-hover table-border">
+	{% for venue in venue_list %}
+<tr>
+	<td>
+		<a href="{% url 'show-venue' venue.id %}">{{ venue }}</a><br/>
+	</td>
+	<td align="right">
+		<a href ="{% url 'update-venue' venue.id %}" class="btn btn-outline-secondary btn-sm">Update</a>
+	</td>
+
+
+
+</tr>
+	{% endfor %}
+	
+	</table> 
+
+
+
+{% endblock %}
