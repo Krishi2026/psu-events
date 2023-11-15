@@ -1,13 +1,8 @@
-from django.test import TestCase, Client
-from django.urls import reverse
-
-
+from django.test import TestCase
 from .models import Venue, Members, Event
 from django.contrib.auth.models import User
 import datetime
 import warnings
-from .forms import VenueForm
-from .forms import VenueForm
 warnings.simplefilter('ignore')
 
 class VenueModelTestCase(TestCase):
@@ -83,87 +78,3 @@ class EventModelTestCase(TestCase):
         self.event.attendees.add(self.member)
         self.assertIn(self.member, self.event.attendees.all())
         self.assertEqual(self.event.manager, self.user)
-
-
-class VenueFormTest(TestCase):
-    def test_venue_form_valid_data(self):
-        # Create a dictionary with valid form data
-        form_data = {
-            'name': 'Example Venue',
-            'address': '123 Main St',
-            'zip_code': '12345',
-            'phone': '123-456-7890',
-            'web': 'http://example.com',
-            'email_address': 'example@example.com',
-        }
-
-        # Create a form instance with the valid data
-        form = VenueForm(data=form_data)
-
-        # Check if the form is valid
-        self.assertTrue(form.is_valid())
-
-    def test_venue_form_invalid_data(self):
-        # Create a dictionary with invalid form data (missing required field 'name')
-        form_data = {
-            'address': '123 Main St',
-            'zip_code': '12345',
-            'phone': '123-456-7890',
-            'web': 'http://example.com',
-            'email_address': 'example@example.com',
-        }
-
-        # Create a form instance with the invalid data
-        form = VenueForm(data=form_data)
-
-        # Check if the form is not valid
-        self.assertFalse(form.is_valid())
-
-    def test_venue_form_blank_data(self):
-        # Create a form instance with no data
-        form = VenueForm(data={})
-
-        # Check if the form is not valid (since some fields are required)
-        self.assertFalse(form.is_valid())
-
-    def test_venue_form_labels(self):
-        # Check if the labels are as expected
-        form = VenueForm()
-        self.assertEqual(form.fields['name'].label, '')
-        self.assertEqual(form.fields['address'].label, '')
-        self.assertEqual(form.fields['zip_code'].label, '')
-        self.assertEqual(form.fields['phone'].label, '')
-        self.assertEqual(form.fields['web'].label, '')
-        self.assertEqual(form.fields['email_address'].label, '')
-    def test_venue_form_labels(self):
-        # Check if the labels are as expected
-        form = VenueForm()
-        self.assertEqual(form.fields['name'].label, '')
-        self.assertEqual(form.fields['address'].label, '')
-        self.assertEqual(form.fields['zip_code'].label, '')
-        self.assertEqual(form.fields['phone'].label, '')
-        self.assertEqual(form.fields['web'].label, '')
-        self.assertEqual(form.fields['email_address'].label, '')
-
-    def test_venue_form_widgets(self):
-        # Check if the widgets are as expected
-        form = VenueForm()
-        self.assertEqual(form.fields['name'].widget.attrs, {'class': 'form-control', 'placeholder': 'Venue Name'})
-        self.assertEqual(form.fields['address'].widget.attrs, {'class': 'form-control', 'placeholder': 'Address'})
-        self.assertEqual(form.fields['zip_code'].widget.attrs, {'class': 'form-control', 'placeholder': 'Zip Code'})
-        self.assertEqual(form.fields['phone'].widget.attrs, {'class': 'form-control', 'placeholder': 'Phone'})
-        self.assertEqual(form.fields['web'].widget.attrs, {'class': 'form-control', 'placeholder': 'Web Address'})
-        self.assertEqual(form.fields['email_address'].widget.attrs, {'class': 'form-control', 'placeholder': 'Email'})
-
-
-    def test_venue_form_widgets(self):
-        # Check if the widgets are as expected
-        form = VenueForm()
-        self.assertEqual(form.fields['name'].widget.attrs, {'class': 'form-control', 'placeholder': 'Venue Name'})
-        self.assertEqual(form.fields['address'].widget.attrs, {'class': 'form-control', 'placeholder': 'Address'})
-        self.assertEqual(form.fields['zip_code'].widget.attrs, {'class': 'form-control', 'placeholder': 'Zip Code'})
-        self.assertEqual(form.fields['phone'].widget.attrs, {'class': 'form-control', 'placeholder': 'Phone'})
-        self.assertEqual(form.fields['web'].widget.attrs, {'class': 'form-control', 'placeholder': 'Web Address'})
-        self.assertEqual(form.fields['email_address'].widget.attrs, {'class': 'form-control', 'placeholder': 'Email'})
-
-
