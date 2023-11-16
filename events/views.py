@@ -25,7 +25,7 @@ def update_venue(request, venue_id):
    		'form':form})
 
 def all_events(request):
-	event_list = Event.objects.all()
+	event_list = Event.objects.all().order_by('name')
 	return render(request, 'events/event_list.html',
 		{"event_list": event_list})
 
@@ -52,6 +52,16 @@ def update_event(request, event_id):
 	return render(request, 'events/update_event.html',
 		{'event':event, 
    		'form':form})
+
+def delete_event(request, event_id):
+	event = Event.objects.get(pk=event_id)
+	event.delete()
+	return redirect('list-events')
+
+def delete_venue(request, venue_id):
+	venue = Venue.objects.get(pk=venue_id)
+	venue.delete()
+	return redirect('list-venues') 
 
 
 def list_venues(request):
