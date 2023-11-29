@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from .models import Event, Venue
 from .forms import VenueForm, EventForm, EventFormAdmin
 from django.shortcuts import redirect
-
+from django.contrib import messages
 
 def show_venue(request, venue_id):
 	venue = Venue.objects.get(pk=venue_id)
@@ -74,10 +74,16 @@ def delete_event(request, event_id):
 	event.delete()
 	return redirect('list-events')
 
-def delete_venue(request, venue_id):
-	venue = Venue.objects.get(pk=venue_id)
-	venue.delete()
-	return redirect('list-venues') 
+
+def delete_event(request, event_id):
+	event = Event.objects.get(pk=event_id)
+	if request.user == event.manager:
+		event.delete()
+		messages.success(request, ("Event Deleted successfully"))
+		return redirect('list-events')		
+	else:
+		messages.success(request, ("You Aren't Authorized To Delete This Event!"))
+		return redirect('list-events')	
 
 
 def list_venues(request):
