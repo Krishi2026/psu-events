@@ -16,11 +16,19 @@
     <h5 class="card-title">{{ venue }}</h5>
     <p class="card-text">
 
-	 {{ venue.address }} <br/>
-	 {{ venue.zip_code }} <br/>
-	 {{ venue.phone }} <br/>
-	 {{ venue.email_address }} <br/>
-	<a href="{{ venue.web }}">{{ venue.web }}<br/>
+
+	 <ul>
+
+	<li>{{ venue.address }}</li>
+	<li>{{ venue.zip_code }}</li>
+	<li>{{ venue.phone }}</li>
+	<li>{{ venue.email_address }}</li>
+	<li><a href="{{ venue.web }}">{{ venue.web }}</a></li>
+	<li>Owner: {{ venue_owner }} </li>
+	<li>Owner's Email: {{ venue_owner.email }} </li>
+
+	</ul>
+	<br>
 
     </p>
   </div>
