@@ -4,10 +4,7 @@
 {% if user.is_authenticated %}
     {% if user == event.manager %}
 	<h1>Update Event</h1>
-    Logged In User: {{ user }}
     <br/>
-    Event Manager: {{ event.manager }}
-    <br></br>
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
@@ -22,7 +19,7 @@
     Event Manager: {{ event.manager }}
     <br><br/>
     {% endif %}
-    
+
 {% else %}
 
 <h1>Sorry! Please Login</h1>
