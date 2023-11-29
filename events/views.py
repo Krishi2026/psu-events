@@ -81,7 +81,19 @@ def delete_venue(request, venue_id):
 	return redirect('list-venues')		
 
 
-
+def search_events(request):
+	if request.method == "POST":
+		searched = request.POST['searched']
+		events = Event.objects.filter(description__contains=searched)
+	
+		return render(request, 
+		'events/search_events.html', 
+		{'searched':searched,
+		'events':events})
+	else:
+		return render(request, 
+		'events/search_events.html', 
+		{})
 
 def update_event(request, event_id):
 	event = Event.objects.get(pk=event_id)
