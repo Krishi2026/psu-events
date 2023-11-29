@@ -162,24 +162,28 @@ def add_venue(request):
 
 
 def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
-	#Converting month to uppercase
+	name = "Honey"
 	month = month.capitalize()
-	# Month Conversation
 	month_number = list(calendar.month_name).index(month)
 	month_number = int(month_number)
-
-	#Calender
 	cal = HTMLCalendar().formatmonth(
-		year,
+		year, 
 		month_number)
-
-	#Current Time and Year
-	current_time = datetime.now()
-	current_year = current_time.year
-	return render(request,'events/home.html',{
-	"year": year,
-	"month": month,
-	"month_number":month_number,
-	"cal": cal,
-	"current_year": current_year,
+	now = datetime.now()
+	current_year = now.year
+	event_list = Event.objects.filter(
+		event_date__year = year,
+		event_date__month = month_number
+		)
+	time = now.strftime('%I:%M %p')
+	return render(request, 
+		'events/home.html', {
+		"name": name,
+		"year": year,
+		"month": month,
+		"month_number": month_number,
+		"cal": cal,
+		"current_year": current_year,
+		"time":time,
+		"event_list": event_list,
 		})
