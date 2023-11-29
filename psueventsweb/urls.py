@@ -19,4 +19,10 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('events.urls')),
+    path('members/', include('django.contrib.auth.urls')),
+    path('members/', include('members.urls')),
 ]
+
+admin.site.site_header = "PSU Events Administration Page"
+admin.site.site_title = "PSU Events"
+admin.site.index_title = "PSU Events Admin area"
