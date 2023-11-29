@@ -2,6 +2,7 @@
 
 {% block content %}
 
+ {% if user.is_authenticated %}
 	<center>
 
 	<h1> Adding New Venue  </h1>
@@ -25,5 +26,14 @@
 </form> 
 	{% endif %}
 	</center>
+
+{% else %}
+
+<h1>Sorry! Please Login</h1>
+
+<a href="{% url 'login' %}">Login Here</a>
+
+{% endif %}
+
 
 {% endblock %}

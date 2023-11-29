@@ -20,7 +20,6 @@ class Members(models.Model):
 	first_name = models.CharField(max_length=40)
 	last_name = models.CharField(max_length=40)
 	email = models.EmailField('User Email ID')
-
 	def __str__(self):
 		return self.first_name+' '+self.last_name
 
