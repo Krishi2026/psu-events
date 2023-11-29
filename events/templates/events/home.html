@@ -2,16 +2,16 @@
 
 {% block content %}
 
-	<center>
+<center style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
 
+  <h1 style="color: #333; text-align: center;">PSU Events {{ current_year }}</h1>
 
-	<h1>PSU Events {{current_year}}</h1>
+  <br/>
 
-	<br/>
-
-	{{cal|safe}}
-	 
-	</center>
-
+  <div style="width: 60%; margin: 20px auto;">
+    {{ cal|safe }}
+  </div>
+   
+</center>
 
 {% endblock %}
