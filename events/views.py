@@ -7,11 +7,16 @@ from .models import Event, Venue
 from .forms import VenueForm, EventForm, EventFormAdmin
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 def show_venue(request, venue_id):
 	venue = Venue.objects.get(pk=venue_id)
-	return render(request, 'events/show_venue.html',
-		{'venue':venue})
+	venue_owner = User.objects.get(pk=venue.owner)
+	events = venue.event_set.all()
+	return render(request, 'events/show_venue.html', 
+		{'venue': venue,
+		'venue_owner':venue_owner,
+		'events':events})
 
 
 def update_venue(request, venue_id):
@@ -55,6 +60,28 @@ def add_event(request):
 			submitted = True
 	return render(request, 'events/add_event.html',
 		{'form':form,'submitted':submitted})
+
+
+def my_events(request):
+	if request.user.is_authenticated:
+		me = request.user.id
+		events = Event.objects.filter(attendees=me)
+		return render(request, 
+			'events/my_events.html', {
+				"events":events
+			})
+
+	else:
+		messages.success(request, ("You Aren't Authorized To View This Page"))
+		return redirect('home')
+
+def delete_venue(request, venue_id):
+	venue = Venue.objects.get(pk=venue_id)
+	venue.delete()
+	return redirect('list-venues')		
+
+
+
 
 def update_event(request, event_id):
 	event = Event.objects.get(pk=event_id)
