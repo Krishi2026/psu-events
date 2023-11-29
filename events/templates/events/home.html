@@ -1,17 +1,105 @@
 {% extends 'events/base.html' %}
 
 {% block content %}
-
-<center style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
-
-  <h1 style="color: #333; text-align: center;">PSU Events {{ current_year }}</h1>
-
-  <br/>
-
-  <div style="width: 60%; margin: 20px auto;">
-    {{ cal|safe }}
-  </div>
-   
+  <center>
+  <h1>Hello ! Events For {{ month }} {{ year }}</h1>
+  As of {{ time }}
+  <br/><br/>
+  <div id="calendar-container">
+  {{ cal|safe }}
+</div>
+  <br/><br/>
 </center>
 
+<style>
+  #calendar-container {
+    max-width: 800px; 
+    margin: auto;
+    padding: 20px;
+    background-color: #fff; 
+  }
+
+  #calendar-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto;
+  }
+
+  #calendar-container th {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border: 1px solid #fff;
+  }
+
+  #calendar-container td {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+  }
+
+  #calendar-container td:hover {
+    background-color: #f0f0f0;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+</style>
+
+
+  <h3><u>Events This Month</u></h3>
+
+  {% if event_list %}
+    {% for event in event_list %}
+    <div class="card">
+  <div class="card-header">
+    {{ event }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Venue: {{ event.venue }}</h5>
+    <p class="card-text">
+      <ul>
+<li>Date: {{ event.event_date }}</li>
+
+<li>Venue Website: {{ event.venue.web }}</li>
+<li>Manager: {{ event.manager }}</li>
+<li>Description: {{ event.description }}</li>
+  <li>Attendees:<br/>
+  {% for user in event.attendees.all %}
+{{ user }}<br/>
+  {% endfor %}
+  </li>
+  </ul>
+
+
+
+    </p>
+  </div>
+  {% if user.is_authenticated %}
+    {% if user == event.manager %}
+      <div class="card-footer text-muted">
+        
+        <a href="{% url 'update-event' event.id %}" class="btn btn-outline-secondary btn-sm">Update Event</a>
+
+        <a href="{% url 'delete-event' event.id %}" class="btn btn-outline-danger btn-sm">Delete Event</a>
+        
+      </div>
+    {% endif %}  
+  {% endif %}
+</div>
+    <br/>
+    {% endfor %}
+
+  {% else %}
+  <h3>Sorry! But there are no events happening in this month.</h3>
+  {% endif %}
+
+  <center>
+  <br/><br/><br/><br/>
+  Portland State University (c) {{ current_year }}
+
+  </center>
 {% endblock %}
